@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Patterns</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Playlist Patterns</h1>
+        <p>How Seasons and Weather Influence Spotify Users' Listening Habits</p>
+        <nav>
+            <a href="data.html">Data</a>
+            <a href="visualizations.html">Visualizations</a>
+            <a href="summary.html">Summary</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>
+                Our project explores the relationship between seasonal changes and the popularity of various music
+                genres on Spotify. Music consumption is deeply personal and culturally significant, influenced by factors
+                like mood, weather, and social activities tied to seasonal shifts. By understanding how genres perform
+                throughout the year, we aim to uncover consumer behavior insights that could lead to tailored marketing
+                strategies, personalized playlists, and deeper user engagement.
+            </p>
+        </section>
+        <section>
+            <h2>Team Members</h2>
+            <ul>
+                <li><strong>Blake Waldner</strong>: Project management and integration of data/API interactions.</li>
+                <li><strong>Eitan Berenfeld</strong>: Data collection using Spotify and OpenWeather APIs.</li>
+                <li><strong>Son Tran</strong>: Data preprocessing, statistical analysis, and report writing.</li>
+                <li><strong>Harshini Moon</strong>: Design and implementation of visualizations.</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 Playlist Patterns Project</p>
+    </footer>
+</body>
+</html>
