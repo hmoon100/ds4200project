@@ -35,6 +35,12 @@
             margin-bottom: 10px;
         }
 
+        header p {
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: 300;
+        }
+
         nav {
             margin-top: 10px;
         }
@@ -87,31 +93,20 @@
     </header>
     <main>
         <section>
-            <h2>Introduction to Data</h2>
-            <p>
-                Our data analysis draws upon the Spotify Web Developer API and the OpenWeather API, offering a comprehensive dataset 
-                spanning between 2,000 and 5,000 records. The Spotify API provides access to top tracks, playlists, and genre popularity scores, 
-                while the OpenWeather API contributes seasonal and weather data. By combining these datasets, we aim to uncover the relationship 
-                between music listening habits and environmental factors.
-            </p>
-        </section>
-        <section>
             <h2>Data Collection</h2>
             <p>
-                Data collection involves retrieving information on top tracks and playlists across various genres, including play counts and 
-                listener demographics. The Spotify API allows us to gather detailed data about genre popularity over time, while the 
-                OpenWeather API supplies weather conditions such as temperature during the same timeframe. Preprocessing steps will include 
-                normalizing formats, handling missing values, and merging datasets for unbiased and accurate comparisons.
-            </p>
-        </section>
-        <section>
-            <h2>Analysis Plan</h2>
-            <p>
-                Our analysis will focus on identifying temporal trends in genre popularity across different seasons and weather conditions. 
-                We will use statistical methods such as correlation coefficients and regression models to examine relationships between weather 
-                variables and music preferences. Clustering algorithms will group genres with similar seasonal patterns, and demographic 
-                segmentation will provide insights into listener variations. Findings will be presented using static visualizations like 
-                line graphs, bar charts, and heatmaps, as well as interactive dashboards using tools like Plotly.
+                We will collect data using the Spotify web developer API. This API provides access to detailed data such as top tracks, 
+                playlists, and genre popularity scores, allowing us to analyze users' listening habits over time. The plan for the data 
+                size between 2,000 and 5,000 records, is not too narrow for unbiased and not too overwhelming for the later upload stage 
+                of the project. We will also gather seasonal and weather data using the OpenWeather API. We hope to identify the relationship 
+                between tracks' popularity and seasonal changes by combining genre popularity with weather patterns within the same timeframe. 
+                The data collection process involves retrieving information on top tracks and playlists across various genres, including play 
+                counts and listener demographics. ⁤⁤⁤Data will be preprocessed and normalized for accurate comparisons. We will collect data from 
+                the Spotify API to obtain metrics on top tracks, playlists, genre popularity scores, and timestamps. This data will be 
+                integrated with corresponding weather information from the OpenWeather API, including temperature and weather conditions at 
+                the time of music streaming. ⁤⁤This comprehensive dataset will serve as the foundation for our analysis, helping us uncover 
+                meaningful insights into the relationship between music and seasonal patterns.
+
             </p>
         </section>
     </main>
