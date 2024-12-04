@@ -4,6 +4,12 @@ const barWidth = 800 - barMargin.left - barMargin.right;
 const barHeight = 400 - barMargin.top - barMargin.bottom;
 const features = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence'];
 
+const dataPath = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? 'js/spotify_charts_with_features_2018_complete.csv'
+  : '/ds4200project/js/spotify_charts_with_features_2018_complete.csv';
+
+fetch(dataPath)
+
 document.addEventListener('DOMContentLoaded', async () => {
   const svg = d3.select("#bar-chart")
     .append("svg")

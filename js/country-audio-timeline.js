@@ -4,6 +4,12 @@ const timelineWidth = 800 - timelineMargin.left - timelineMargin.right;
 const timelineHeight = 400 - timelineMargin.top - timelineMargin.bottom;
 const timelineFeatures = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence'];
 
+const dataPath = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? 'js/spotify_charts_with_features_2018_complete.csv'
+  : '/ds4200project/js/spotify_charts_with_features_2018_complete.csv';
+
+fetch(dataPath)
+
 document.addEventListener('DOMContentLoaded', async () => {
   const svg = d3.select("#timeline-chart")
     .append("svg")
