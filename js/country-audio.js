@@ -44,10 +44,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function updateChart(region) {
       const regionData = data.filter(d => d.region === region);
-      const averages = features.map(feature => ({
-        feature,
-        value: d3.mean(regionData, d => d[feature])
-      }));
+      console.log("Region data:", regionData);
+
+      const averages = features.map(feature => {
+        const mean = d3.mean(regionData, d => d[feature]);
+        console.log(`Average for ${feature}:`, mean);
+        return {
+          feature,
+          value: mean
+        };
+      });
+
+      // Before creating rectangles
+      averages.forEach(d => {
+        console.log(`Height calculation for ${d.feature}:`, barHeight - y(d.value));
+      });
+    }
 
       const x = d3.scaleBand()
         .range([0, barWidth])
