@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Spotify Analysis</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navigation -->
+    <nav class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto flex space-x-6">
+            <a href="home.html" class="hover:text-gray-300">Home</a>
+            <a href="about.html" class="text-blue-400">About</a>
+            <a href="static_visualizations.html" class="hover:text-gray-300">Static Visualizations</a>
+            <a href="interactive_visualizations.html" class="hover:text-gray-300">Interactive Visualizations</a>
+            <a href="conclusions.html" class="hover:text-gray-300">Conclusions</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold mb-8 font-mono">About Our Spotify Analysis Project</h1>
+
+            <!-- Project Overview -->
+            <section class="space-y-6 max-w-4xl mb-8">
+                <h2 class="text-2xl font-bold mb-4">Project Overview</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    This analysis project explores the relationship between music characteristics and temporal patterns throughout the year. Using data from Spotify's API, we investigate how audio features of songs vary across seasons and months, providing insights into musical trends and listener preferences in 2018.
+                </p>
+            </section>
+
+            <!-- Data Source & Methodology -->
+            <section class="space-y-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">Data Source & Methodology</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Our data comes from the Spotify Web API, which provides detailed audio features for millions of tracks. We focused on 2018 data, analyzing seven key audio features that Spotify calculates for each song. The analysis was conducted using Python, with visualizations created using matplotlib, seaborn, and Altair.
+                </p>
+            </section>
+
+            <!-- Key Audio Features Analyzed -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">Key Audio Features Analyzed</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul class="space-y-4 text-gray-700">
+                        <li><strong>Acousticness:</strong> A confidence measure of whether the track is acoustic vs. electronic</li>
+                        <li><strong>Danceability:</strong> How suitable a track is for dancing based on tempo, rhythm stability, and beat strength</li>
+                        <li><strong>Energy:</strong> Represents the intensity and activity level of the track</li>
+                        <li><strong>Valence:</strong> The musical positiveness conveyed by the track</li>
+                        <li><strong>Instrumentalness:</strong> Predicts whether a track contains no vocals</li>
+                        <li><strong>Liveness:</strong> Detects the presence of a live audience in the recording</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</body>
+</html>

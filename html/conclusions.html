@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Conclusions - Spotify Analysis</title>
+   <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-100">
+
+
+   <!-- Navigation -->
+   <nav class="bg-gray-800 text-white mb-8">
+       <div class="container mx-auto flex space-x-6 py-4">
+           <a href="home.html" class="hover:text-gray-300">Home</a>
+           <a href="about.html" class="hover:text-gray-300">About</a>
+           <a href="static_visualizations.html" class="hover:text-gray-300">Static Visualizations</a>
+           <a href="interactive_visualizations.html" class="hover:text-gray-300">Interactive Visualizations</a>
+           <a href="conclusions.html" class="text-blue-400">Conclusions</a>
+       </div>
+   </nav>
+
+
+   <!-- Main Content -->
+   <div class="container mx-auto px-4 py-8">
+       <div class="bg-white rounded-lg shadow-lg p-8">
+           <h1 class="text-3xl font-bold mb-8 font-mono">Summary of Findings</h1>
+
+
+           <!-- Key Findings -->
+           <div class="space-y-6 max-w-4xl">
+               <p class="text-gray-700 leading-relaxed mb-6">
+                   Our analysis of Spotify's 2018 music data revealed fascinating patterns in how audio features interact and evolve throughout the year. The correlation heatmap demonstrated that most audio features operate independently, with only a few notable relationships. We found a moderate negative correlation (-0.40) between energy and acousticness, suggesting that more energetic tracks tend to be less acoustic. Additionally, danceability showed positive correlations with both valence (0.29) and speechiness (0.26), indicating that more upbeat, vocal-heavy tracks tend to be more danceable. These relationships provide valuable insights into how different musical elements combine to create various listening experiences.
+               </p>
+
+
+               <p class="text-gray-700 leading-relaxed mb-6">
+                   The time analysis revealed distinct seasonal and monthly patterns in music characteristics. Contrary to common assumptions, energy levels peaked during Spring rather than Summer, while danceability remained consistently high throughout the year (above 0.70). We observed that valence (musical positiveness) gradually increases from winter to summer months, peaking in July, suggesting a correlation between warmer months and more positive musical content. The monthly trends also showed that the most dramatic variations in musical characteristics occur during the summer months (June-August), indicating more diverse musical preferences during this period.
+               </p>
+
+
+               <!-- Future Directions -->
+               <h2 class="text-2xl font-bold mb-4">Future Directions</h2>
+               <p class="text-gray-700 leading-relaxed">
+                   Looking ahead, there are several promising directions for expanding this analysis. By incorporating multiple years of data, we could identify long-term trends and verify if the patterns observed in 2018 are consistent across different years. Adding genre information would allow us to understand how these audio features vary across different musical styles, while geographical data could reveal regional preferences and cultural influences. Furthermore, incorporating popularity metrics could help understand how these audio features impact a song's success, potentially leading to insights valuable for both artists and industry professionals. The development of predictive models based on these features could also help forecast musical trends and listener preferences.
+               </p>
+           </div>
+       </div>
+   </div>
+
+
+</body>
+</html>
