@@ -121,7 +121,7 @@ class SpotifyAnalysis:
 
 if __name__ == "__main__":
     analyzer = SpotifyAnalysis(
-        data_path='spotify_charts_with_features_2018_complete.csv',
+        data_path='../js/spotify_charts_with_features_2018_complete.csv',
         output_dir='static'
     )
     analyzer.run_analysis()

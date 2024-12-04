@@ -1,166 +1,128 @@
-document.addEventListener('DOMContentLoaded', async function () {
-    const regionSelect = document.getElementById('region-select');
-    const featureSelect = document.getElementById('feature-select');
-    const container = document.getElementById('timeline-chart-container');
+// Timeline Chart for Audio Features
+const timelineMargin = { top: 40, right: 30, bottom: 60, left: 60 };
+const timelineWidth = 800 - timelineMargin.left - timelineMargin.right;
+const timelineHeight = 400 - timelineMargin.top - timelineMargin.bottom;
+const timelineFeatures = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence'];
 
-    if (!regionSelect || !featureSelect || !container) {
-        console.error('Required DOM elements not found');
-        return;
+document.addEventListener('DOMContentLoaded', async () => {
+  const svg = d3.select("#timeline-chart")
+    .append("svg")
+    .attr("width", timelineWidth + timelineMargin.left + timelineMargin.right)
+    .attr("height", timelineHeight + timelineMargin.top + timelineMargin.bottom)
+    .append("g")
+    .attr("transform", `translate(${timelineMargin.left},${timelineMargin.top})`);
+
+  try {
+    const response = await fetch('js/spotify_charts_with_features_2018_complete.csv');
+    if (!response.ok) throw new Error('CSV file not found');
+    const csvText = await response.text();
+
+    const parsed = Papa.parse(csvText, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+
+    const data = parsed.data;
+    const regions = [...new Set(data.map(d => d.region))].filter(Boolean);
+
+    const regionSelect = d3.select("#timeline-region-select");
+    regionSelect.selectAll("option")
+      .data(regions)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d);
+
+    regionSelect.property("value", "United States");
+
+    const featureSelect = d3.select("#feature-select");
+    featureSelect.selectAll("option")
+      .data(timelineFeatures)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d);
+
+    featureSelect.property("value", timelineFeatures[0]);
+
+    function updateChart(region, feature) {
+      const regionData = data.filter(d => d.region === region)
+        .sort((a, b) => a.day_of_year - b.day_of_year);
+
+      const groupedData = d3.rollup(
+        regionData,
+        v => d3.mean(v, d => d[feature]),
+        d => d.day_of_year
+      );
+
+      const timelineData = Array.from(groupedData, ([day, value]) => ({
+        day: day,
+        value: value
+      })).sort((a, b) => a.day - b.day);
+
+      const x = d3.scaleLinear()
+        .range([0, timelineWidth])
+        .domain(d3.extent(timelineData, d => d.day));
+
+      const y = d3.scaleLinear()
+        .range([timelineHeight, 0])
+        .domain([0, 1]);
+
+      svg.selectAll("*").remove();
+
+      svg.append("g")
+        .attr("transform", `translate(0,${timelineHeight})`)
+        .call(d3.axisBottom(x).ticks(12)
+          .tickFormat(d => {
+            const date = new Date(2018, 0, d);
+            return d3.timeFormat("%b")(date);
+          }));
+
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+      const line = d3.line()
+        .x(d => x(d.day))
+        .y(d => y(d.value))
+        .curve(d3.curveMonotoneX);
+
+      svg.append("path")
+        .datum(timelineData)
+        .attr("class", "line")
+        .attr("d", line);
+
+      svg.append("text")
+        .attr("x", timelineWidth / 2)
+        .attr("y", -10)
+        .attr("text-anchor", "middle")
+        .text(`${feature} Timeline for ${region}`);
+
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - timelineMargin.left)
+        .attr("x", 0 - (timelineHeight / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text(feature);
+
+      svg.append("text")
+        .attr("transform", `translate(${timelineWidth/2}, ${timelineHeight + timelineMargin.bottom - 10})`)
+        .style("text-anchor", "middle")
+        .text("Month");
     }
 
-    // Clear existing options
-    regionSelect.innerHTML = '';
-    featureSelect.innerHTML = '';
-
-    try {
-        // Show loading indicator
-        container.innerHTML = '<div class="loading">Loading data...</div>';
-
-        // Fetch and parse CSV data
-        const response = await fetch('../python_and_data/spotify_charts_with_features_2018_complete.csv\'');
-        const text = await response.text();
-        const data = Papa.parse(text, {
-            header: true,
-            dynamicTyping: true,
-            skipEmptyLines: true
-        }).data;
-
-        // Populate dropdowns
-        const regions = [...new Set(data.map(d => d.region))].sort();
-        regions.forEach(region => {
-            const option = document.createElement('option');
-            option.value = region;
-            option.textContent = region;
-            regionSelect.appendChild(option);
-        });
-
-        const features = [
-            'popularity',
-            'acousticness',
-            'danceability',
-            'energy',
-            'instrumentalness',
-            'liveness',
-            'speechiness',
-            'valence'
-        ];
-        features.forEach(feature => {
-            const option = document.createElement('option');
-            option.value = feature;
-            option.textContent = feature.charAt(0).toUpperCase() + feature.slice(1);
-            featureSelect.appendChild(option);
-        });
-
-        // Default selections
-        regionSelect.value = 'United States'; // Set to United States explicitly
-        featureSelect.value = 'popularity';
-
-        // Function to create timeline plot
-        function createTimelinePlot(region, feature) {
-            container.innerHTML = ''; // Clear the container
-
-            const timelineData = data
-                .filter(d => d.region === region)
-                .map(d => ({
-                    day: d.day_of_year,
-                    value: d[feature]
-                }))
-                .sort((a, b) => a.day - b.day);
-
-            const groupedData = d3.rollup(
-                timelineData,
-                v => d3.mean(v, d => d.value),
-                d => d.day
-            );
-
-            const processedData = Array.from(groupedData, ([day, value]) => ({ day, value }))
-                .sort((a, b) => a.day - b.day);
-
-            const margin = { top: 40, right: 50, bottom: 60, left: 60 };
-            const width = container.clientWidth - margin.left - margin.right;
-            const height = container.clientHeight - margin.top - margin.bottom;
-
-            const svg = d3.select(container)
-                .append('svg')
-                .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom)
-                .append('g')
-                .attr('transform', `translate(${margin.left},${margin.top})`);
-
-            const x = d3.scaleLinear()
-                .domain(d3.extent(processedData, d => d.day))
-                .range([0, width]);
-
-            const y = d3.scaleLinear()
-                .domain([0, feature === 'popularity' ? 100 : 1])
-                .range([height, 0]);
-
-            const line = d3.line()
-                .x(d => x(d.day))
-                .y(d => y(d.value))
-                .curve(d3.curveMonotoneX);
-
-            svg.append('path')
-                .datum(processedData)
-                .attr('fill', 'none')
-                .attr('stroke', '#3b46c2')
-                .attr('stroke-width', 2)
-                .attr('d', line);
-
-            svg.selectAll('.dot')
-                .data(processedData)
-                .enter()
-                .append('circle')
-                .attr('class', 'dot')
-                .attr('cx', d => x(d.day))
-                .attr('cy', d => y(d.value))
-                .attr('r', 3)
-                .attr('fill', '#3b46c2');
-
-            svg.append('g')
-                .attr('transform', `translate(0,${height})`)
-                .call(d3.axisBottom(x).ticks(12).tickFormat(d => {
-                    const date = new Date(2018, 0, d);
-                    return d3.timeFormat('%b %d')(date);
-                }))
-                .selectAll('text')
-                .style('text-anchor', 'end')
-                .attr('dx', '-.8em')
-                .attr('dy', '.15em')
-                .attr('transform', 'rotate(-45)');
-
-            svg.append('g').call(d3.axisLeft(y));
-
-            svg.append('text')
-                .attr('x', width / 2)
-                .attr('y', -10)
-                .attr('text-anchor', 'middle')
-                .style('font-size', '16px')
-                .text(`${feature.charAt(0).toUpperCase() + feature.slice(1)} Over Time for ${region}`);
-        }
-
-        // Initial plot
-        createTimelinePlot(regionSelect.value, featureSelect.value);
-
-        // Event listeners
-        regionSelect.addEventListener('change', () => createTimelinePlot(regionSelect.value, featureSelect.value));
-        featureSelect.addEventListener('change', () => createTimelinePlot(regionSelect.value, featureSelect.value));
-
-        window.addEventListener(
-            'resize',
-            debounce(() => createTimelinePlot(regionSelect.value, featureSelect.value), 250)
-        );
-    } catch (error) {
-        console.error('Error loading or processing data:', error);
-        container.innerHTML = '<div class="error">Error loading data. Please try again later.</div>';
+    function updateOnChange() {
+      const selectedRegion = regionSelect.property("value");
+      const selectedFeature = featureSelect.property("value");
+      updateChart(selectedRegion, selectedFeature);
     }
+
+    regionSelect.on("change", updateOnChange);
+    featureSelect.on("change", updateOnChange);
+
+    updateChart("United States", timelineFeatures[0]);
+  } catch (error) {
+    console.error('Error:', error);
+  }
 });
-
-// Debounce function
-function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-    };
-}
