@@ -1,51 +1,69 @@
+<userStyle>Normal</userStyle>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <link href="styles.css" rel="stylesheet">
-  <style>
-    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-    .chart-container { margin-bottom: 40px; }
-    select { padding: 5px; margin: 0 10px 20px 0; }
-    .bar { fill: steelblue; }
-    .bar:hover { fill: #6998c2; }
-    h2 { margin-bottom: 15px; color: #333; }
-    .line { fill: none; stroke: steelblue; stroke-width: 2; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Visualizations - Spotify Analysis</title>
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        .bar {
+            fill: var(--primary-blue);
+            transition: fill 0.2s;
+        }
+        .bar:hover {
+            fill: var(--hover-gray);
+        }
+        .line {
+            fill: none;
+            stroke: var(--primary-blue);
+            stroke-width: 2;
+        }
+        select {
+            padding: 4px 8px;
+            font-size: 1em;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-  <!-- Navigation -->
-    <nav class="container">
-      <div class="flex space-x-6 py-4">
+<body>
+    <div class="flex space-x-6 py-4">
         <a href="index.html" class="nav-link">Home</a>
         <a href="about.html" class="nav-link">About</a>
         <a href="static_visualizations.html" class="nav-link">Static Visualizations</a>
         <a href="interactive_visualizations.html" class="nav-link active">Interactive Visualizations</a>
         <a href="conclusions.html" class="nav-link">Conclusions</a>
-      </div>
-    </nav>
-
-  <div class="container mx-auto px-4 py-8">
-    <div class="bg-white rounded-lg shadow-lg p-8">
-      <h1 class="text-3xl font-bold mb-8 font-mono">Interactive Visualizations</h1>
-
-      <div class="chart-container">
-        <h2 class="text-2xl font-bold mb-4">Audio Features by Region</h2>
-        <select id="bar-region-select"></select>
-        <div id="bar-chart"></div>
-      </div>
-
-      <div class="chart-container">
-        <h2 class="text-2xl font-bold mb-4">Audio Feature Timeline</h2>
-        <select id="timeline-region-select"></select>
-        <select id="feature-select"></select>
-        <div id="timeline-chart"></div>
-      </div>
     </div>
-  </div>
 
-  <script src="country-audio.js"></script>
-  <script src="country-audio-timeline.js"></script>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl">Interactive Visualizations</h1>
+
+            <section class="chart-container">
+                <h2 class="text-2xl">Audio Features by Region</h2>
+                <div class="controls">
+                    <label for="bar-region-select">Select Region:</label>
+                    <select id="bar-region-select"></select>
+                </div>
+                <div id="bar-chart"></div>
+            </section>
+
+            <section class="chart-container">
+                <h2 class="text-2xl">Audio Feature Timeline</h2>
+                <div class="controls">
+                    <label for="timeline-region-select">Select Region:</label>
+                    <select id="timeline-region-select"></select>
+                    <label for="feature-select">Select Feature:</label>
+                    <select id="feature-select"></select>
+                </div>
+                <div id="timeline-chart"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="country-audio.js"></script>
+    <script src="country-audio-timeline.js"></script>
 </body>
 </html>
