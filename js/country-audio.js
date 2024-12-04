@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     .attr("transform", `translate(${barMargin.left},${barMargin.top})`);
 
   try {
-    const response = await fetch('/ds4200project/js/spotify_charts_with_features_2018_complete.csv');
+    const response = await fetch('spotify_charts_with_features_2018_complete.csv');
     if (!response.ok) throw new Error('CSV file not found');
     const csvText = await response.text();
 
