@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     try {
         // Load data
-        const response = await fetch('../python_and_data/spotify_charts_with_features_2018_complete.csv');
+        const response = await fetch('../python_and_data/spotify_charts_with_features_2018_complete.csv\'');
         const text = await response.text();
 
         // Parse CSV

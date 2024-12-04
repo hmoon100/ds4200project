@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         container.innerHTML = '<div class="loading">Loading data...</div>';
 
         // Fetch and parse CSV data
-        const response = await fetch('../python_and_data/spotify_charts_with_features_2018_complete.csv');
+        const response = await fetch('../python_and_data/spotify_charts_with_features_2018_complete.csv\'');
         const text = await response.text();
         const data = Papa.parse(text, {
             header: true,
