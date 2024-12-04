@@ -1,4 +1,3 @@
-// Bar Chart for Audio Features
 const barMargin = { top: 40, right: 30, bottom: 60, left: 60 };
 const barWidth = 800 - barMargin.left - barMargin.right;
 const barHeight = 400 - barMargin.top - barMargin.bottom;
@@ -7,8 +6,6 @@ const features = ['acousticness', 'danceability', 'energy', 'instrumentalness', 
 const dataPath = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
   ? 'js/spotify_charts_with_features_2018_complete.csv'
   : '/ds4200project/js/spotify_charts_with_features_2018_complete.csv';
-
-fetch(dataPath)
 
 document.addEventListener('DOMContentLoaded', async () => {
   const svg = d3.select("#bar-chart")
@@ -19,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     .attr("transform", `translate(${barMargin.left},${barMargin.top})`);
 
   try {
-    const response = await fetch('js/spotify_charts_with_features_2018_complete.csv');
+    const response = await fetch(dataPath);
     if (!response.ok) throw new Error('CSV file not found');
     const csvText = await response.text();
 
@@ -42,6 +39,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     select.property("value", "United States");
 
+    const x = d3.scaleBand()
+      .range([0, barWidth])
+      .padding(0.1)
+      .domain(features);
+
+    const y = d3.scaleLinear()
+      .range([barHeight, 0])
+      .domain([0, 1]);
+
     function updateChart(region) {
       const regionData = data.filter(d => d.region === region);
       console.log("Region data:", regionData);
@@ -54,21 +60,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           value: mean
         };
       });
-
-      // Before creating rectangles
-      averages.forEach(d => {
-        console.log(`Height calculation for ${d.feature}:`, barHeight - y(d.value));
-      });
-    }
-
-      const x = d3.scaleBand()
-        .range([0, barWidth])
-        .padding(0.1)
-        .domain(features);
-
-      const y = d3.scaleLinear()
-        .range([barHeight, 0])
-        .domain([0, 1]);
 
       svg.selectAll("*").remove();
 
@@ -106,6 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     updateChart("United States");
+
   } catch (error) {
     console.error('Error:', error);
   }
