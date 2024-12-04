@@ -12,7 +12,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         .attr("transform", `translate(${timelineMargin.left},${timelineMargin.top})`);
 
     try {
-        const response = await fetch('spotify_charts_with_features_2018_complete.csv');
+        // Updated fetch URL for GitHub Pages
+        const csvPath = window.location.pathname.includes('github.io')
+            ? '/ds4200project/spotify_charts_with_features_2018_complete.csv'
+            : 'spotify_charts_with_features_2018_complete.csv';
+
+        const response = await fetch(csvPath);
         if (!response.ok) {
             throw new Error('Failed to load CSV file');
         }
@@ -128,7 +133,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error('Error:', error);
-        // Show error message in the chart area
         timelineSvg.append("text")
             .attr("x", timelineWidth / 2)
             .attr("y", timelineHeight / 2)
