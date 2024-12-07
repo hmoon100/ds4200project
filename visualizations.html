@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Music Analysis - Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="index.html">Introduction</a>
+            <a href="visualizations.html" class="active">Analysis</a>
+            <a href="conclusions.html">Conclusions</a>
+        </nav>
+
+        <section class="section">
+            <h1>Analysis of Spotify Music Patterns</h1>
+
+            <p class="intro">Our analysis explores how musical characteristics interact and vary across different dimensions. We begin by examining the relationships between audio features, then investigate seasonal patterns, and finally analyze geographical variations. Through this progression, we build a comprehensive understanding of how music preferences and characteristics evolve across time and space.</p>
+
+            <div class="viz-container">
+                <h2>Feature Relationships</h2>
+                <div id="correlation-heatmap"></div>
+                <p>We begin our analysis by examining how different audio features relate to each other. The correlation heatmap reveals several key insights. The strong negative correlation (-0.40) between energy and acousticness indicates a fundamental trade-off in music production: as tracks become more energetic, they tend to incorporate more electronic elements rather than acoustic instruments. This relationship is particularly important for understanding how modern music balances traditional and electronic elements.</p>
+                <p>The moderate positive correlation (0.36) between energy and valence suggests that more energetic songs generally convey more positive emotions. Additionally, danceability's positive correlations with both valence (0.29) and speechiness (0.26) hint at how rhythm, emotion, and vocal content interact in popular music. These relationships provide a foundation for understanding the more complex patterns we observe in temporal and geographical analyses.</p>
+            </div>
+
+            <div class="viz-container">
+                <h2>Temporal Patterns</h2>
+                <h3>Seasonal Distributions</h3>
+                <iframe src="seasonal_distribution.html"></iframe>
+                <p>Building on our understanding of feature relationships, we examine how these characteristics vary across seasons. The box plots reveal distinct seasonal patterns that add temporal context to our correlation findings. Notably, while danceability maintains consistently high values (0.6-0.8) throughout the year, energy levels show increased variability during summer months. This seasonal variation in energy, combined with our earlier correlation findings, suggests that summer music tends to feature more electronic elements and positive emotions.</p>
+
+                <h3>Monthly Evolution</h3>
+                <img src="monthly_trends.png" alt="Monthly Trends in Audio Features">
+                <p>The monthly trends provide a more granular view of temporal patterns, revealing subtle variations that complement our seasonal analysis. The gradual increase in valence from winter (0.4) to summer months (0.55) aligns with the seasonal patterns observed earlier. This visualization also highlights the remarkable stability of danceability throughout the year, suggesting that while emotional content may vary seasonally, rhythmic appeal remains a constant priority in popular music.</p>
+            </div>
+
+            <div class="section">
+                <h2>Geographical Analysis</h2>
+                <p>Finally, we examine how musical characteristics vary across different regions, adding a spatial dimension to our understanding.</p>
+
+                <div class="viz-container">
+                    <h3>Regional Feature Comparison</h3>
+                    <iframe src="region_comparison.html"></iframe>
+                    <p>This interactive visualization reveals distinct regional preferences in music production and consumption. Using Bolivia as an example, we observe high values in danceability and energy but lower values in acousticness and instrumentalness. These patterns, when considered alongside our correlation analysis, suggest that different regions may prioritize certain combinations of musical elements, reflecting local cultural preferences and music production styles.</p>
+                </div>
+
+                <div class="viz-container">
+                    <h3>Temporal-Regional Patterns</h3>
+                    <iframe src="feature_timeline.html"></iframe>
+                    <p>Our final visualization combines temporal and geographical dimensions, allowing us to observe how regional preferences evolve throughout the year. This dynamic view reveals that while some patterns (like the summer increase in valence) are consistent across regions, others show distinct regional variations. The tool enables exploration of how cultural differences interact with seasonal patterns, providing the most comprehensive view of music feature variations.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Correlation matrix data
+        const correlationData = [
+            {'feature1': 'acousticness', 'feature2': 'acousticness', 'value': 1.00},
+            {'feature1': 'acousticness', 'feature2': 'danceability', 'value': -0.19},
+            {'feature1': 'acousticness', 'feature2': 'energy', 'value': -0.40},
+            {'feature1': 'acousticness', 'feature2': 'valence', 'value': -0.04},
+            {'feature1': 'acousticness', 'feature2': 'instrumentalness', 'value': 0.01},
+            {'feature1': 'acousticness', 'feature2': 'liveness', 'value': -0.22},
+            {'feature1': 'acousticness', 'feature2': 'speechiness', 'value': 0.01},
+            {'feature1': 'danceability', 'feature2': 'danceability', 'value': 1.00},
+            {'feature1': 'danceability', 'feature2': 'energy', 'value': 0.02},
+            {'feature1': 'danceability', 'feature2': 'valence', 'value': 0.29},
+            {'feature1': 'danceability', 'feature2': 'instrumentalness', 'value': -0.05},
+            {'feature1': 'danceability', 'feature2': 'liveness', 'value': 0.01},
+            {'feature1': 'danceability', 'feature2': 'speechiness', 'value': 0.26},
+            {'feature1': 'energy', 'feature2': 'energy', 'value': 1.00},
+            {'feature1': 'energy', 'feature2': 'valence', 'value': 0.36},
+            {'feature1': 'energy', 'feature2': 'instrumentalness', 'value': -0.07},
+            {'feature1': 'energy', 'feature2': 'liveness', 'value': 0.10},
+            {'feature1': 'energy', 'feature2': 'speechiness', 'value': -0.05},
+            {'feature1': 'valence', 'feature2': 'valence', 'value': 1.00},
+            {'feature1': 'valence', 'feature2': 'instrumentalness', 'value': -0.10},
+            {'feature1': 'valence', 'feature2': 'liveness', 'value': 0.11},
+            {'feature1': 'valence', 'feature2': 'speechiness', 'value': 0.03},
+            {'feature1': 'instrumentalness', 'feature2': 'instrumentalness', 'value': 1.00},
+            {'feature1': 'instrumentalness', 'feature2': 'liveness', 'value': -0.03},
+            {'feature1': 'instrumentalness', 'feature2': 'speechiness', 'value': -0.03},
+            {'feature1': 'liveness', 'feature2': 'liveness', 'value': 1.00},
+            {'feature1': 'liveness', 'feature2': 'speechiness', 'value': -0.09},
+            {'feature1': 'speechiness', 'feature2': 'speechiness', 'value': 1.00}
+        ];
+
+        // Create heatmap
+        const margin = {top: 50, right: 30, bottom: 70, left: 70};
+        const width = 600 - margin.left - margin.right;
+        const height = 600 - margin.top - margin.bottom;
+
+        const svg = d3.select("#correlation-heatmap")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Get unique features
+        const features = Array.from(new Set(correlationData.map(d => d.feature1)));
+
+        // Create scales
+        const x = d3.scaleBand()
+            .range([0, width])
+            .domain(features)
+            .padding(0.01);
+
+        const y = d3.scaleBand()
+            .range([height, 0])
+            .domain(features)
+            .padding(0.01);
+
+        // Create color scale
+        const colorScale = d3.scaleSequential()
+            .interpolator(d3.interpolateRdBu)
+            .domain([1, -1]);  // Reversed domain for RdBu
+
+        // Add axes
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-45)");
+
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+        // Add title
+        svg.append("text")
+            .attr("x", width/2)
+            .attr("y", -margin.top/2)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .text("Correlation Between Audio Features");
+
+        // Create cells
+        features.forEach(feature1 => {
+            features.forEach(feature2 => {
+                const correlation = correlationData.find(d =>
+                    (d.feature1 === feature1 && d.feature2 === feature2) ||
+                    (d.feature1 === feature2 && d.feature2 === feature1)
+                );
+
+                if (correlation) {
+                    // Add rectangle for correlation
+                    svg.append("rect")
+                        .attr("x", x(feature1))
+                        .attr("y", y(feature2))
+                        .attr("width", x.bandwidth())
+                        .attr("height", y.bandwidth())
+                        .style("fill", colorScale(correlation.value));
+
+                    // Add text for correlation value
+                    svg.append("text")
+                        .attr("x", x(feature1) + x.bandwidth()/2)
+                        .attr("y", y(feature2) + y.bandwidth()/2)
+                        .attr("dy", ".35em")
+                        .attr("text-anchor", "middle")
+                        .style("fill", Math.abs(correlation.value) < 0.4 ? "black" : "white")
+                        .text(correlation.value.toFixed(2));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
